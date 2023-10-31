@@ -1,0 +1,23 @@
+.modalTitleContainer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.modalTitle{
+    display: flex;
+    /* width: 80%; */
+}
+
+.closeIcon{
+    position: absolute;
+    right:0;
+    cursor: pointer;
+}
+.css-1tse2b6{
+    border: none !important;
+}
