@@ -5,7 +5,6 @@
 // import { USDZLoader } from "three-usdz-loader";
 
 // const GlpModelViewer = ({ modelPath }) => {
-//     console.log(USDZLoader)
 //   return (
 //     <Canvas
 //       camera = {{ position: [20, 50, 30] }}

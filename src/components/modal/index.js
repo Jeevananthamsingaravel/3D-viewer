@@ -12,6 +12,8 @@ import USDZViewer from '../usdzViewer';
 import OBJViewer from '../objViewer';
 import FBXViewer from "./../fbxViewer"
 import BlendViewer from '../blendViewer';
+import GltfModelViewer from '../gltfViewer';
+import DracoGLBViewer from '../dracoViewer';
 
 const Fade = React.forwardRef(function Fade(props, ref) {
   const {
@@ -95,7 +97,7 @@ export default function SpringModal({open,setOpen,threeDType,title ,modelPath}) 
           {threeDType ==="GLP" && <GlpModelViewer modelPath = {modelPath} />}
           {threeDType ==="GLTF" && <GlpModelViewer modelPath = {modelPath} />}
           {threeDType ==="USDZ" && <USDZViewer modelPath = {modelPath} />}
-          {threeDType ==="DRACO" && <Draco3DViewer        modelPath = {modelPath} />}
+          {threeDType ==="DRACO" && <DracoGLBViewer        modelPath = {modelPath} />}
           {threeDType ==="OBJ" && <OBJViewer modelPath = {modelPath} />}
           {threeDType ==="FBX" && <FBXViewer modelPath = {modelPath} />}
           {threeDType ==="BLEND" && <BlendViewer modelPath = {modelPath} />}

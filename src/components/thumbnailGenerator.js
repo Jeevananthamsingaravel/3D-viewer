@@ -8,15 +8,14 @@ function ThumbnailGenerator({ modelPath }) {
   const [thumbnailURL, setTumbnailURL] = useState (null)
 
   useEffect(() => {
-    if(!thumbnailURL){
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, 1, 1, 100); // Reduced FOV and adjusted near/far
+    const camera = new THREE.PerspectiveCamera(0.9, 0.9, 0.9); // Reduced FOV and adjusted near/far
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(200, 200); // Set the thumbnail size
     if(!canvasRef.current.children[0]){
-    canvasRef.current.appendChild(renderer.domElement);
+      canvasRef.current.appendChild(renderer.domElement);
     }
-
+    
     const loader = new GLTFLoader();
     loader.load(modelPath, (gltf) => {
       const model = gltf.scene;
@@ -30,11 +29,13 @@ function ThumbnailGenerator({ modelPath }) {
       scene.add(directionalLight);
 
       // Position the camera for a better view of the model
-      camera.position.set(30, 30, 30);
+      camera.position.set(20, 10, 20);
       camera.lookAt(0, 0, 0);
 
       // Add the model to the scene
       scene.add(model);
+
+
 
       // Render the scene
       renderer.render(scene, camera);
@@ -46,7 +47,7 @@ function ThumbnailGenerator({ modelPath }) {
         // You can use thumbnailDataURL as an image source or save it as needed
       });
     });
-}
+
   }, [modelPath]);
 
 
