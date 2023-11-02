@@ -1,17 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
-
-import ThreeDViewer from './pages/threeDViewer';
-import USDZViewer from './components/usdzViewer';
-import ThreeDThumbnail from './components/thumbnailGenerator';
-
-function App() {
+import React, { useState } from "react";
+import Header from "./Components/Header";
+import Card from "./Components/Card";
+const App = () => {
+  const modelFile = [
+    {
+      key: "renderGLB",
+      name: "GLB",
+      format: "GLB",
+      path: "/assets/glb/16374_PS01_S01_NV01_RQP2_3.0.glb",
+      modalTitle : "GLB Viewer"
+    },
+    {
+      key: "renderDRACO",
+      name: "DRACO - GLB",
+      format: "DRACO",
+      path: "/assets/glb_draco/16374_PS01_S01_NV01_RQP2_3.0.glb",
+      modalTitle : "DRACO Viewer"
+    },
+    {
+      key: "renderGLTF",
+      name: "GLTF",
+      format: "GLTF",
+      path: "/assets/gltf/16374_PS01_S01_NV01_RQP2_3.0.gltf",
+      modalTitle : "GLTF Viewer"
+    },
+    {
+      key: "renderUSDZ",
+      name: "USDZ",
+      format: "USDZ",
+      path: "/assets/usdz/16374_PS01_S01_NV01_RQP2_3.0.usdz",
+      modalTitle : "USDZ Viewer"
+    },
+  ];
   return (
     <div className="App">
-      <ThreeDViewer />
+      <Header />
+      <div className="container">
+        <div className="card-wrapper">
+          {modelFile.map((modelData) => {
+            return <Card key={modelData.key} modelData={modelData} />;
+          })}
+        </div>
+      </div>
     </div>
   );
-}
+};
 
 export default App;
-

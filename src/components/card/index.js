@@ -1,25 +1,23 @@
 import React, { useState } from "react";
-import Modal from "./../modal/index"
-import "./index.css"
-import ThreeDThumbnail from "./../thumbnailGenerator"
+import Card from "@mui/material/Card";
+import Loader from "../Loaders";
+import "./index.css";
+import  Modal  from "./../modal/index";
 
+const CustomCard = ({ modelData }) => {
+  const [isOpenModal, setIsModalopen] = useState(false)
+  return (
+    <>
+    <Card sx={{ width: 345, padding: "10px" }}>
+      <div className="model-title">{modelData.name}</div>
+      <div className="model-preview">
+        <Loader modelData={modelData} />
+      </div>
+      <div className = "model-title"  style={{cursor:"pointer"}} onClick = {()=>setIsModalopen(true)}>Click to preview</div>
+    </Card>
+    <Modal isOpenModal={isOpenModal} setIsModalopen={setIsModalopen} modelData={modelData} />
+    </>
+  );
+};
 
-const Card = ({title, description,threeDType,modelPath}) => {
-    const [open, setOpen] = useState(false);
-    const [thumbnailURL , setTumbnailURL] =  useState(null)
-
-    return (
-        <>
-            <div className="cardContainer" onClick={()=> setOpen(true)}>
-                <div className="cardTitle">{title}</div>
-                <div className="cardThumbnail">
-                {modelPath && <ThreeDThumbnail modelPath={modelPath} />}
-                </div>
-                <div className="cardDescription">{description}</div>
-            </div>
-            <Modal open={open} setOpen={setOpen} threeDType={threeDType} title={title} modelPath={modelPath}/>
-        </>
-    )
-}
-
-export default Card
+export default CustomCard;

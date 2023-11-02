@@ -3,17 +3,10 @@ import PropTypes from 'prop-types';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import GlpModelViewer from "./../glbViewer/index";
 import { useSpring, animated } from '@react-spring/web';
 import CloseIcon from '@mui/icons-material/Close';
+import Loader from "../Loaders";
 import "./index.css"
-import Draco3DViewer from '../dracoViewer';
-import USDZViewer from '../usdzViewer';
-import OBJViewer from '../objViewer';
-import FBXViewer from "./../fbxViewer"
-import BlendViewer from '../blendViewer';
-import GltfModelViewer from '../gltfViewer';
-import DracoGLBViewer from '../dracoViewer';
 
 const Fade = React.forwardRef(function Fade(props, ref) {
   const {
@@ -69,16 +62,16 @@ const style = {
   p: 4,
 };
 
-export default function SpringModal({open,setOpen,threeDType,title ,modelPath}) {
-  const handleClose = () => setOpen(false);
-
+export default function SpringModal({isOpenModal,setIsModalopen,modelData}) {
+  const handleClose = () => setIsModalopen(false);
+console.log(modelData)
   return (
     <div>
       <Modal
         aria-labelledby="spring-modal-title"
         aria-describedby="spring-modal-description"
         className="modal"
-        open={open}
+        open={isOpenModal}
         onClose={handleClose}
         closeAfterTransition
         slots={{ backdrop: Backdrop }}
@@ -88,19 +81,13 @@ export default function SpringModal({open,setOpen,threeDType,title ,modelPath}) 
           },
         }}
       >
-        <Fade in={open}>
+        <Fade in={isOpenModal}>
           <Box sx={style}>
             <div className='modalTitleContainer'>
-              <span className='modalTitle'>{title}</span>
+              <span className='modalTitle'>{modelData?.modalTitle}</span>
               <CloseIcon className='closeIcon' fontSize="large" onClick={()=>handleClose()}/>
             </div>
-          {threeDType ==="GLP" && <GlpModelViewer modelPath = {modelPath} />}
-          {threeDType ==="GLTF" && <GlpModelViewer modelPath = {modelPath} />}
-          {threeDType ==="USDZ" && <USDZViewer modelPath = {modelPath} />}
-          {threeDType ==="DRACO" && <DracoGLBViewer        modelPath = {modelPath} />}
-          {threeDType ==="OBJ" && <OBJViewer modelPath = {modelPath} />}
-          {threeDType ==="FBX" && <FBXViewer modelPath = {modelPath} />}
-          {threeDType ==="BLEND" && <BlendViewer modelPath = {modelPath} />}
+          <Loader modelData = {modelData} />
 
           </Box>
         </Fade>
