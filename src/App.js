@@ -12,10 +12,10 @@ const App = () => {
     },
     {
       key: "renderDRACO",
-      name: "DRACO - GLB",
+      name: "GLB_DRACO",
       format: "DRACO",
       path: "/assets/glb_draco/16374_PS01_S01_NV01_RQP2_3.0.glb",
-      modalTitle : "DRACO Viewer"
+      modalTitle : "GLB_DRACO Viewer"
     },
     {
       key: "renderGLTF",

@@ -23,7 +23,6 @@ const Home = ({ modelPath }) => {
   const loader = new USDZLoader("/external");
 
   useEffect(() => {
-    console.log(threeContainer.current.clientWidth,"threeContainer")
     // Setup camera
     const newCamera = new THREE.PerspectiveCamera(27, 345 / 300, 0.5, 6500);
     newCamera.position.z = 150;
@@ -33,29 +32,39 @@ const Home = ({ modelPath }) => {
 
     const group = new THREE.Group();
     scene.add(group);
+// Create a white directional light
+const directionalLight = new THREE.DirectionalLight("#ffffff");
+directionalLight.intensity = 1;
+directionalLight.position.set(0, 10, 0).normalize();
+scene.add(directionalLight);
 
-    // Create a white directional light
-    const directionalLight = new THREE.DirectionalLight("#ffffff");
-    directionalLight.intensity = 1
-    directionalLight.position.set(0, 10, 0).normalize();
-    scene.add(directionalLight);
+// Create a white hemisphere light
+const hemisphereLight = new THREE.HemisphereLight(0xffffff, 0x444444);
+hemisphereLight.position.set(0, 1, 0);
+scene.add(hemisphereLight);
 
-    // Create a white hemisphere light
-    // const hemisphereLight = new THREE.HemisphereLight(0xffffff, 0x444444);
-    // hemisphereLight.position.set(0, 1, 0);
-    // scene.add(hemisphereLight);
+// Create a white ambient light
+const ambientLight = new THREE.AmbientLight("#ffffff");
+ambientLight.intensity = 0.2;
+scene.add(ambientLight);
 
-    // Create a white ambient light
-    const ambientLight = new THREE.AmbientLight("#ffffff");
-    ambientLight.intensity = 0.2;
-    scene.add(ambientLight);
+const spotLight = new THREE.SpotLight();
+spotLight.penumbra = 1;
+spotLight.position.set(0, 10, 0).normalize();
+scene.add(spotLight);
 
-    const spotLight = new THREE.SpotLight();
-    spotLight.penumbra = 1;
-    scene.add(spotLight)
+renderer.toneMappingExposure = 1.5;
+
+// const material = new THREE.MeshStandardMaterial({
+//   color: 0xff0000,
+//   roughness: 0.2, // Adjust the roughness (0 to 1)
+//   metalness: 0.8, // Adjust the metalness (0 to 1)
+// });
+
+// scene.add(material);
 
     // Setup main scene
-    // renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(threeContainer.current.clientWidth, threeContainer.current.clientHeight);
     renderer.shadowMap.enabled = false;
     // renderer.shadowMap.type = THREE.VSMShadowMap;
@@ -76,6 +85,7 @@ const Home = ({ modelPath }) => {
     const newControls = new OrbitControls(newCamera, renderer.domElement);
     newControls.update();
     setControls(newControls);
+
   }, [modelIsVisible]);
 
   const animate = () => {

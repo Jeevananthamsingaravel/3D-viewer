@@ -64,7 +64,6 @@ const style = {
 
 export default function SpringModal({isOpenModal,setIsModalopen,modelData}) {
   const handleClose = () => setIsModalopen(false);
-console.log(modelData)
   return (
     <div>
       <Modal
