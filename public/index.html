@@ -8,7 +8,7 @@
       name="description"
       content="Web site created using create-react-app"
     />
-    <!-- <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-eval' 'unsafe-inline' blob: sharedarraybuffer;"> -->
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-eval' 'unsafe-inline' blob: sharedarraybuffer;">
 
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -41,6 +41,16 @@
     <script src="coi-serviceworker.js"></script>
     <script>
       if (!crossOriginIsolated) SharedArrayBuffer = ArrayBuffer;
+      if (typeof WebAssembly === 'object' && typeof WebAssembly.Memory === 'function') {
+        console.log(crossOriginIsolated,"from if")
+  // WebAssembly and WebAssembly.Memory are supported.
+  // You can proceed with using threads.
+} else {
+  console.log(crossOriginIsolated,"from else")
+
+  // WebAssembly threads are not supported.
+  // Handle the lack of support accordingly.
+}
       </script>
 <script src = "./external/emHdBindings.js"></script>
   </body>

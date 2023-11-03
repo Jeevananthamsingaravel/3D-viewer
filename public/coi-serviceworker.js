@@ -91,13 +91,13 @@ if (typeof window === "undefined") {
     // already set from the origin server. Also if the browser has no notion of crossOriginIsolated, just give up here.
     if (window.crossOriginIsolated !== false || !coi.shouldRegister()) return;
 
-    if (!window.isSecureContext) {
-      !coi.quiet &&
-        console.log(
-          "COOP/COEP Service Worker not registered, a secure context is required."
-        );
-      return;
-    }
+    // if (!window.isSecureContext) {
+    //   !coi.quiet &&
+    //     console.log(
+    //       "COOP/COEP Service Worker not registered, a secure context is required."
+    //     );
+    //   return;
+    // }
 
     // In some environments (e.g. Chrome incognito mode) this won't be available
     if (n.serviceWorker) {

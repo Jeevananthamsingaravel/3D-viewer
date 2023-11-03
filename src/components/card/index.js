@@ -8,12 +8,12 @@ const CustomCard = ({ modelData }) => {
   const [isOpenModal, setIsModalopen] = useState(false)
   return (
     <>
-    <Card sx={{ width: 345, padding: "10px" }}>
+    <Card sx={{ width: 345, padding: "10px", cursor:"pointer" }} className="card_container" onClick = {()=>setIsModalopen(true)}>
       <div className="model-title">{modelData.name}</div>
       <div className="model-preview">
         <Loader modelData={modelData} />
       </div>
-      <div className = "model-title"  style={{cursor:"pointer"}} onClick = {()=>setIsModalopen(true)}>Click to preview</div>
+      <div className = "model-title"  style={{cursor:"pointer"}}>Click to preview</div>
     </Card>
     <Modal isOpenModal={isOpenModal} setIsModalopen={setIsModalopen} modelData={modelData} />
     </>
