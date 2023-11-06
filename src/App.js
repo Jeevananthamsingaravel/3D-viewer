@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Header from "./Components/Header";
-import Card from "./Components/Card";
+import Header from "./components/header";
+import Card from "./components/card";
 import "./App.css"
 const App = () => {
   const modelFile = [
