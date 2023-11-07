@@ -8,12 +8,21 @@
     justify-content: center;
     align-items: center;
     position: relative;
+    height: 10%;
 }
 .closeIcon{
     position: absolute;
     top: 0;
     right: 0%;
+   
+}
+.closeIconConatiner{
+    width: 100px;
+    height: 100%;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 /* 
 .full-width-height > :first-child {

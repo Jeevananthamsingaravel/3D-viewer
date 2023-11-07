@@ -108,13 +108,12 @@ renderer.toneMappingExposure = 1.5;
     }
 
     try {
-      console.log(modelIsLoading,"modelIsLoading")
       const loadedModelData = await loader.loadFile(file, scene);
       setLoadedModels(loadedModelData);
       setModelIsLoading(false);
       setModelIsVisible(true);
     } catch (e) {
-      setModelIsLoading(false);
+      setModelIsLoading(true);
       console.error("An error occurred when trying to load the model", e);
     }
   };

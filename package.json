@@ -8,8 +8,6 @@
     "@mui/icons-material": "^5.14.16",
     "@mui/material": "^5.14.16",
     "@mui/styled-engine-sc": "^6.0.0-alpha.4",
-    "@react-spring/web": "^9.7.3",
-    "@react-three/drei": "^9.88.5",
     "@react-three/fiber": "^8.15.5",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -18,9 +16,7 @@
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "styled-components": "^6.1.0",
-    "three": "^0.157.0",
-    "three-usdz-loader": "^1.0.7",
-    "web-vitals": "^2.1.4"
+    "three": "^0.157.0"
   },
   "scripts": {
     "start": "react-scripts start",

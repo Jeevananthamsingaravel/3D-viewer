@@ -63,7 +63,7 @@ export class USDZLoader {
   async loadFile(file, targetGroup) {
     if (this.modelIsLoading) {
       this.modelIsLoading = false;
-      throw "A model is already loading. Please wait.";
+      // throw "A model is already loading. Please wait.";
     }
 
     // Wait for module to be ready
@@ -91,7 +91,6 @@ export class USDZLoader {
       );
       // Notice end of loading
       this.modelIsLoading = false;
-      console.log(instance);
       return instance;
     } catch (e) {
       this.modelIsLoading = false;

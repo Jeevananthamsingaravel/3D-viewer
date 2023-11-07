@@ -90,7 +90,9 @@ export default function SpringModal({isOpenModal,setIsModalopen,modelData,render
           <Box sx={style}>
             <div className='modalTitleContainer'>
               <span className='modalTitle'>{modelData?.modalTitle}</span>
-              <CloseIcon className='closeIcon' fontSize="large" onClick={()=>handleClose()}/>
+              <div className='closeIconConatiner closeIcon' onClick={()=>handleClose()}>
+                <CloseIcon  fontSize="large"/>
+              </div>
             </div>
             <Loader modelData = {modelData}  forPreview={false} isOpenModal={isOpenModal}  renderer={renderer} loader={loader}/>
           </Box>
