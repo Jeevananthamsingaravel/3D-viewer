@@ -59,15 +59,19 @@ const style = {
   minWidth:"930 px",
   minHeight:"640 px",
   bgcolor: 'background.paper',
-  border: '2px solid #000',
+  border: 'none',
   boxShadow: 24,
   p: 4,
 };
 
-export default function SpringModal({isOpenModal,setIsModalopen,modelData}) {
-  const handleClose = () => setIsModalopen(false);
+export default function SpringModal({isOpenModal,setIsModalopen,modelData,renderer,loader}) {
+  
+  const handleClose = () => {
+    renderer.dispose();
+    // renderer.forceContextLoss();
+    setIsModalopen(false);
+  }
   return (
-    <div>
       <Modal
         aria-labelledby="spring-modal-title"
         aria-describedby="spring-modal-description"
@@ -88,11 +92,9 @@ export default function SpringModal({isOpenModal,setIsModalopen,modelData}) {
               <span className='modalTitle'>{modelData?.modalTitle}</span>
               <CloseIcon className='closeIcon' fontSize="large" onClick={()=>handleClose()}/>
             </div>
-          <Loader modelData = {modelData} />
-
+            <Loader modelData = {modelData}  forPreview={false} isOpenModal={isOpenModal}  renderer={renderer} loader={loader}/>
           </Box>
         </Fade>
       </Modal>
-    </div>
   );
 }

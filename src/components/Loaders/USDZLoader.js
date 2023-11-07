@@ -1,30 +1,26 @@
 import React, { useRef, useEffect, useState } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { USDZLoader } from "./../../plugin/USDZ/USDZLoader";
-import { RGBELoader } from "three/addons/loaders/RGBELoader.js";
 
-const Home = ({ modelPath }) => {
+const Home = ({ modelPath , forPreview, isOpenModal,renderer, loader}) => {
   const [modelIsVisible, setModelIsVisible] = useState(false);
   const [modelIsLoading, setModelIsLoading] = useState(false);
   const [loadedModels, setLoadedModels] = useState();
+  // const [loader, setLoader] = useState();
   const threeContainer = useRef(null);
   const [camera, setCamera] = useState(null);
   const [scene] = useState(new THREE.Scene());
-  const [renderer] = useState(
-    new THREE.WebGLRenderer({
-      antialias: true,
-      toneMapping: THREE.CineonToneMapping,
-      toneMappingExposure: 2,
-      alpha: true,
-    })
-  );
+
+
   const [controls, setControls] = useState(null);
-  const loader = new USDZLoader("/external");
+  
+// useEffect(()=>{
+//   setLoader( new USDZLoader("/external"))
+//  },[modelPath])
 
   useEffect(() => {
     // Setup camera
-    const newCamera = new THREE.PerspectiveCamera(27, 345 / 300, 0.5, 6500);
+    let newCamera = new THREE.PerspectiveCamera(27, 345 / 300, 0.5, 6500);
     newCamera.position.z = 150;
     newCamera.position.y = 0.5;
     newCamera.position.x = 0.9;
@@ -65,8 +61,11 @@ renderer.toneMappingExposure = 1.5;
 
     // Setup main scene
     renderer.setPixelRatio(window.devicePixelRatio);
+    if(forPreview){
+    renderer.setSize(345,300 );
+    }else{
     renderer.setSize(threeContainer.current.clientWidth, threeContainer.current.clientHeight);
-    renderer.shadowMap.enabled = false;
+    renderer.shadowMap.enabled = false;}
     // renderer.shadowMap.type = THREE.VSMShadowMap;
 
     // const pmremGenerator = new THREE.PMREMGenerator(renderer);
@@ -86,11 +85,12 @@ renderer.toneMappingExposure = 1.5;
     newControls.update();
     setControls(newControls);
 
-  }, [modelIsVisible]);
+  }, [modelIsVisible,modelPath]);
 
   const animate = () => {
     if (controls && loadedModels) {
       loadedModels.update(new Date().getTime() / 1000);
+
       renderer.render(scene, camera);
       requestAnimationFrame(animate);
     }
@@ -108,6 +108,7 @@ renderer.toneMappingExposure = 1.5;
     }
 
     try {
+      console.log(modelIsLoading,"modelIsLoading")
       const loadedModelData = await loader.loadFile(file, scene);
       setLoadedModels(loadedModelData);
       setModelIsLoading(false);
@@ -137,19 +138,19 @@ renderer.toneMappingExposure = 1.5;
     if (loadedModels) {
       animate();
     }
-  }, [loadedModels]);
+  }, [loadedModels,modelPath]);
 
   useEffect(() => {
     async function fetchData() {
       const blob = await convertPathToFile(modelPath);
       loadFile(blob);
     }
-    if (modelPath) {
+    if (modelPath && loader) {
       fetchData();
     }
-  }, [modelPath]);
+  }, [modelPath,loader]);
 
-  return <div className="full-width-height" ref={threeContainer}></div>;
+  return <div className="full-width-height" id="usdz-canvas" ref={threeContainer}></div>;
 };
 
 
