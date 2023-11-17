@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import Card from "@mui/material/Card";
-import Loader from "../Loaders";
 import "./index.css";
 import  Modal  from "./../modal/index";
-import previeweImg from "./../../Previewe.png"
+// import previeweImg from "./../../Previewe.png"
 
 const CustomCard = ({ modelData ,renderer,loader}) => {
   const [isOpenModal, setIsModalopen] = useState(false)
@@ -15,7 +14,7 @@ const CustomCard = ({ modelData ,renderer,loader}) => {
       <div className="model-preview">
         {/* <Loader modelData={modelData} forPreview={true} isOpenModal={isOpenModal} renderer={renderer} /> */}
         <div className="preview_Img">
-        <img src={previeweImg} style={{width:"50%", height:"50%"}}/>
+        {/* <img src={previeweImg} style={{width:"50%", height:"50%"}}/> */}
         </div>
       </div>
       <div className = "model-title"  style={{cursor:"pointer"}}>Click to preview</div>
