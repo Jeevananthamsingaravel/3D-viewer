@@ -4,12 +4,11 @@ import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader";
 import { DRACOLoader } from "three/addons/loaders/DRACOLoader";
-import JSZip from 'jszip';
 
-const ModelViewer = ({ modelPath ,modelData}) => {
+const ModelViewer = ({ modelPath ,modelData, forPreview}) => {
   return (
     <Canvas camera={{ position: [0, 0, 0.5] }}>
-      <OrbitControls />
+      {!forPreview && <OrbitControls />}
       <ambientLight intensity={1} />
       <directionalLight color="#ffffff" intensity={1} position={[0, 10, 0]} />
       <spotLight position={[10, 10, 10]}  penumbra={1} />
@@ -24,7 +23,7 @@ const Model = ({ modelPath,modelData }) => {
 
 
   if(modelData?.format === "GLTF"){
-THREE.DefaultLoadingManager.setURLModifier((url) => {
+  THREE.DefaultLoadingManager.setURLModifier((url) => {
   // Modify URLs as needed
   if (url.endsWith('.bin')) {
     return modelData?.binPath;
@@ -43,7 +42,7 @@ THREE.DefaultLoadingManager.setURLModifier((url) => {
   
   
   const dracoLoader = new DRACOLoader();
-  dracoLoader.setDecoderPath("/decoder/");
+  dracoLoader.setDecoderPath("https://www.gstatic.com/draco/versioned/decoders/1.5.6/");
   const gltfLoader = new GLTFLoader();
   gltfLoader.setDRACOLoader(dracoLoader);
   const [scene, setScene] = useState(null);

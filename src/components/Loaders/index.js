@@ -7,7 +7,7 @@ const Loader = ({ modelData,forPreview,isOpenModal,renderer,loader }) => {
     case "GLTF":
     case "GLB":
     case "DRACO":
-      return <GLTFLoader modelPath={modelData.path} modelData={modelData} />;
+      return <GLTFLoader modelPath={modelData.path} modelData={modelData} forPreview={forPreview} />;
     case "USDZ":
       return <USDZLoader modelPath={modelData.path} forPreview = {false} isOpenModal={isOpenModal} renderer={renderer} loader={loader} modelData={modelData} />;
     default:

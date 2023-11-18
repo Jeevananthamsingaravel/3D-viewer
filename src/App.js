@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "./components/header";
 import Card from "./components/card";
 import * as THREE from "three";
-import "./App.css"
+import "./App.css";
 import { USDZLoader } from "./plugin/USDZ/USDZLoader";
 const App = () => {
 
