@@ -1,5 +1,5 @@
 // import ReactDOM from "react-dom";
-// import React from "react";
+// import React, { useEffect } from "react";
 // import OAuthRefreshTokenGrant from "@sitecore/sc-contenthub-webclient-sdk/dist/authentication/oauth-refreshtoken-grant";
 // import OAuthPasswordGrant from "@sitecore/sc-contenthub-webclient-sdk/dist/authentication/oauth-password-grant";
 // import { MailRequestByUsername } from "@sitecore/sc-contenthub-webclient-sdk/dist/models/notifications/mail-request-by-username";
@@ -37,6 +37,15 @@
 //     const test = await client.notifications.sendEmailNotificationAsync(request);
 //   }
 
+//     // Check if crossOriginIsolated is supported in the current environment
+//     if ('crossOriginIsolated' in window) {
+//       // Log the value of crossOriginIsolated
+//       console.log('crossOriginIsolated:', window.crossOriginIsolated);
+//     } else {
+//       window["SharedArrayBuffer"] = ArrayBuffer;
+//       console.warn('crossOriginIsolated is not supported in this environment');
+//     }
+
 //   return {
 //     render() {
 //       ReactDOM.render(
@@ -68,4 +77,3 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
-
