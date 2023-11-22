@@ -6,6 +6,11 @@
 // import { ContentHubClient } from "@sitecore/sc-contenthub-webclient-sdk/dist/clients/content-hub-client";
 // import App from './App';
 // export default function createExternalRoot(container) {
+
+//   const usdBindingsTag = document.createElement("script");
+//   usdBindingsTag.innerHTML = `if (!crossOriginIsolated) SharedArrayBuffer = ArrayBuffer;`
+//   document.body.appendChild(usdBindingsTag);
+
 //   var sub;
 //   var feed;
 //   function subject(val) {
@@ -37,15 +42,6 @@
 //     const test = await client.notifications.sendEmailNotificationAsync(request);
 //   }
 
-//     // Check if crossOriginIsolated is supported in the current environment
-//     if ('crossOriginIsolated' in window) {
-//       // Log the value of crossOriginIsolated
-//       console.log('crossOriginIsolated:', window.crossOriginIsolated);
-//     } else {
-//       window["SharedArrayBuffer"] = ArrayBuffer;
-//       console.warn('crossOriginIsolated is not supported in this environment');
-//     }
-
 //   return {
 //     render() {
 //       ReactDOM.render(
@@ -66,6 +62,9 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+const usdBindingsTag = document.createElement("script");
+usdBindingsTag.innerHTML = `if (!crossOriginIsolated) SharedArrayBuffer = ArrayBuffer;`
+document.body.appendChild(usdBindingsTag);
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

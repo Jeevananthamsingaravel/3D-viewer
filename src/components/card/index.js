@@ -14,9 +14,6 @@ const CustomCard = ({ modelData ,renderer,loader}) => {
       <div className="model-title">{modelData.name}</div>
       <div className="model-preview">
         {modelData?.format !== "USDZ" && <Loader modelData={modelData} forPreview={true} isOpenModal={isOpenModal} renderer={renderer}/>}
-        {/* <div className="preview_Img">
-        <img src={previeweImg} style={{width:"50%", height:"50%"}}/>
-        </div> */}
       </div>
       <div className = "model-title"  style={{cursor:"pointer"}}>Click to preview</div>
     </Card>

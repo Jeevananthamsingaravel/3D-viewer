@@ -40,14 +40,25 @@ export class USDZLoader {
         this.moduleLoadingCompleted = true;
       }
     };
+    let urlPath = "https://saadhoctesting.blob.core.windows.net/test-container/content-package-file-uploads/123456/emHdBindings.js?sp=r&st=2023-11-21T12:00:40Z&se=2023-12-08T20:00:40Z&sv=2022-11-02&sr=b&sig=ofE%2BB3gb%2BbjeqhWBPp9KZulzJc5R93C8HuiGwqNOt%2F0%3D";
+    // let urlPath = ;
+    const response = await fetch(urlPath);
+    const arrayBuffer = await response.arrayBuffer();
+    const blob = new Blob([arrayBuffer]);
+    const file = new File([blob], "emHdBindings.js", {
+      // type: "model/vnd.usdz+zip",
+    });
+
+    console.log(file,"worker_url");
+    usdBindingsTag.setAttribute("src",URL.createObjectURL(blob));
     document.head.appendChild(usdBindingsTag);
-    usdBindingsTag.setAttribute("src", depDirectory + "/emHdBindings.js");
   }
 
   /**
    * Gathers the module while ensuring it's ready to be used
    * Returns null if the loading was completed with error
    */
+  
   async waitForModuleLoadingCompleted() {
     while (!this.moduleLoadingCompleted) {
       await new Promise((resolve) => setTimeout(resolve, 10));

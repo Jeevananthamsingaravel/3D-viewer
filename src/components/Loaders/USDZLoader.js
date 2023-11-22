@@ -65,17 +65,18 @@ const Home = ({ modelPath , forPreview, isOpenModal,renderer, loader}) => {
     // scene.add(material);
 
     // Setup main scene
-    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer?.setPixelRatio(window.devicePixelRatio);
     if(forPreview){
-    renderer.setSize(345,300 );
+      renderer?.setSize(threeContainer.current.clientWidth, threeContainer.current.clientHeight);
+
     }else{
-    renderer.setSize(threeContainer.current.clientWidth, threeContainer.current.clientHeight);
-    renderer.shadowMap.enabled = false;
+    renderer?.setSize(threeContainer.current.clientWidth, threeContainer.current.clientHeight);
+     renderer.shadowMap.enabled = false;
     }
-    threeContainer.current.appendChild(renderer.domElement);
+    threeContainer.current.appendChild(renderer?.domElement);
 
     // Setup navigation
-    const newControls = new OrbitControls(newCamera, renderer.domElement);
+    const newControls = new OrbitControls(newCamera, renderer?.domElement);
     newControls.update();
     setControls(newControls);
 
@@ -84,7 +85,6 @@ const Home = ({ modelPath , forPreview, isOpenModal,renderer, loader}) => {
   const animate = () => {
     if (controls && loadedModels) {
       loadedModels.update(new Date().getTime() / 1000);
-
       renderer.render(scene, camera);
       requestAnimationFrame(animate);
     }
