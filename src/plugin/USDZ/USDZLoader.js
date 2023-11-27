@@ -49,7 +49,7 @@ export class USDZLoader {
       // type: "model/vnd.usdz+zip",
     });
 
-    console.log(file,"worker_url");
+    // console.log(file,"worker_url");
     usdBindingsTag.setAttribute("src",URL.createObjectURL(blob));
     document.head.appendChild(usdBindingsTag);
   }

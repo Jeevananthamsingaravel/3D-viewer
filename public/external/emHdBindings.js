@@ -3,6 +3,7 @@ var getUsdModule = (function () {
   if (typeof __filename !== "undefined") _scriptDir = _scriptDir || __filename;
   return function (getUsdModule, depPath, maxSupportedMemoryGrowth) {
       getUsdModule = getUsdModule || {};
+      console.log(getUsdModule, depPath, maxSupportedMemoryGrowth)
 
       function GROWABLE_HEAP_I8() {
           if (wasmMemory.buffer != buffer) {
@@ -1958,8 +1959,9 @@ var getUsdModule = (function () {
                   initial: INITIAL_MEMORY / 65536,
                   maximum: (maxSupportedMemoryGrowth === undefined ? 4294967296 : maxSupportedMemoryGrowth) / 65536,
                   shared: true,
-              });
-              if (!(wasmMemory.buffer instanceof SharedArrayBuffer)) {
+                });
+                console.log("i am here", wasmMemory.buffer instanceof SharedArrayBuffer,wasmMemory);
+                if (!(wasmMemory.buffer instanceof SharedArrayBuffer)) {
                   err(
                       "requested a shared WebAssembly.Memory but the returned buffer is not a SharedArrayBuffer, indicating that while the browser has SharedArrayBuffer it does not have WebAssembly threads support - you may need to set a flag"
                   );
@@ -11815,6 +11817,7 @@ var getUsdModule = (function () {
       return getUsdModule.ready;
   };
 })();
+
 if (typeof exports === "object" && typeof module === "object") module.exports = getUsdModule;
 else if (typeof define === "function" && define["amd"])
   define([], function () {

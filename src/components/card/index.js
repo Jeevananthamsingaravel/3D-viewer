@@ -1,12 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import "./index.css";
 import  Modal  from "./../modal/index";
 import Loader from "../Loaders";
-// import previeweImg from "./../../Previewe.png"
+import * as THREE from "three";
+import {USDZLoader} from "./../../plugin/USDZ/USDZLoader";
 
-const CustomCard = ({ modelData ,renderer,loader}) => {
-  const [isOpenModal, setIsModalopen] = useState(false)
+const CustomCard = ({ modelData}) => {
+  const [isOpenModal, setIsModalopen] = useState(false);
+  const [renderer, setRenderer] = useState(null);
+  const [loader, setLoader] = useState();
+  useEffect(() => {
+      setRenderer(
+          new THREE.WebGLRenderer({
+              antialias: true,
+              toneMapping: THREE.CineonToneMapping,
+              toneMappingExposure: 2,
+              alpha: true,
+          })
+      );
+      setLoader(new USDZLoader());
+  }, []);
 
   return (
     <>

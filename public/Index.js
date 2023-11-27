@@ -29886,6 +29886,131 @@ module.exports["default"] = callsites;
 
 /***/ }),
 
+/***/ 1130:
+/***/ (function() {
+
+/*! coi-serviceworker v0.1.7 - Guido Zuidhof and contributors, licensed under MIT */
+let coepCredentialless = false;
+if (typeof window === 'undefined') {
+    self.addEventListener("install", () => self.skipWaiting());
+    self.addEventListener("activate", (event) => event.waitUntil(self.clients.claim()));
+
+    self.addEventListener("message", (ev) => {
+        if (!ev.data) {
+            return;
+        } else if (ev.data.type === "deregister") {
+            self.registration
+                .unregister()
+                .then(() => {
+                    return self.clients.matchAll();
+                })
+                .then(clients => {
+                    clients.forEach((client) => client.navigate(client.url));
+                });
+        } else if (ev.data.type === "coepCredentialless") {
+            coepCredentialless = ev.data.value;
+        }
+    });
+
+    self.addEventListener("fetch", function (event) {
+        const r = event.request;
+        if (r.cache === "only-if-cached" && r.mode !== "same-origin") {
+            return;
+        }
+
+        const request = (coepCredentialless && r.mode === "no-cors")
+            ? new Request(r, {
+                credentials: "omit",
+            })
+            : r;
+        event.respondWith(
+            fetch(request)
+                .then((response) => {
+                    if (response.status === 0) {
+                        return response;
+                    }
+
+                    const newHeaders = new Headers(response.headers);
+                    newHeaders.set("Cross-Origin-Embedder-Policy",
+                        coepCredentialless ? "credentialless" : "require-corp"
+                    );
+                    if (!coepCredentialless) {
+                        newHeaders.set("Cross-Origin-Resource-Policy", "cross-origin");
+                    }
+                    newHeaders.set("Cross-Origin-Opener-Policy", "same-origin");
+
+                    return new Response(response.body, {
+                        status: response.status,
+                        statusText: response.statusText,
+                        headers: newHeaders,
+                    });
+                })
+                .catch((e) => console.error(e))
+        );
+    });
+
+} else {
+    (() => {
+        // You can customize the behavior of this script through a global `coi` variable.
+        const coi = {
+            shouldRegister: () => true,
+            shouldDeregister: () => false,
+            coepCredentialless: () => !(window.chrome || window.netscape),
+            doReload: () => window.location.reload(),
+            quiet: false,
+            ...window.coi
+        };
+
+        const n = navigator;
+
+        if (n.serviceWorker && n.serviceWorker.controller) {
+            n.serviceWorker.controller.postMessage({
+                type: "coepCredentialless",
+                value: coi.coepCredentialless(),
+            });
+
+            if (coi.shouldDeregister()) {
+                n.serviceWorker.controller.postMessage({ type: "deregister" });
+            }
+        }
+
+        // If we're already coi: do nothing. Perhaps it's due to this script doing its job, or COOP/COEP are
+        // already set from the origin server. Also if the browser has no notion of crossOriginIsolated, just give up here.
+        if (window.crossOriginIsolated !== false || !coi.shouldRegister()) return;
+
+        if (!window.isSecureContext) {
+            !coi.quiet && console.log("COOP/COEP Service Worker not registered, a secure context is required.");
+            return;
+        }
+
+        // In some environments (e.g. Chrome incognito mode) this won't be available
+        if (n.serviceWorker) {
+            n.serviceWorker.register(window.document.currentScript.src).then(
+                (registration) => {
+                    !coi.quiet && console.log("COOP/COEP Service Worker registered", registration.scope);
+
+                    registration.addEventListener("updatefound", () => {
+                        !coi.quiet && console.log("Reloading page to make use of updated COOP/COEP Service Worker.");
+                        coi.doReload();
+                    });
+
+                    // If the registration is active, but it's not controlling the page
+                    if (registration.active && !n.serviceWorker.controller) {
+                        !coi.quiet && console.log("Reloading page to make use of COOP/COEP Service Worker.");
+                        coi.doReload();
+                    }
+                },
+                (err) => {
+                    !coi.quiet && console.error("COOP/COEP Service Worker failed to register:", err);
+                }
+            );
+        }
+    })();
+}
+
+
+/***/ }),
+
 /***/ 9087:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -29955,7 +30080,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, ".headerContainer{\r\n    display: flex
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".css-1tse2b6{\r\n    border: none !important;\r\n}\r\n.modalTitleContainer{\r\n    display: flex;\r\n    font-size: 18px;\r\n    font-weight: 700;\r\n    justify-content: center;\r\n    align-items: center;\r\n    position: relative;\r\n    height: 10%;\r\n}\r\n.closeIcon{\r\n    position: absolute;\r\n    top: 0;\r\n    right: 0%;\r\n   \r\n}\r\n.closeIconConatiner{\r\n    width: 100px;\r\n    height: 100%;\r\n    cursor: pointer;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n}\r\n/* \r\n.full-width-height > :first-child {\r\n    width: 100% !important;\r\n    height:  100% !;\r\n} */", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".css-1tse2b6{\r\n    border: none !important;\r\n}\r\n.modalTitleContainer{\r\n    display: flex;\r\n    font-size: 18px;\r\n    font-weight: 700;\r\n    justify-content: center;\r\n    align-items: center;\r\n    position: relative;\r\n    height: 10%;\r\n}\r\n.closeIcon{\r\n    position: absolute;\r\n    top: 0;\r\n    right: 0%;\r\n   \r\n}\r\n.closeIconConatiner{\r\n    width: 100px;\r\n    height: 100%;\r\n    cursor: pointer;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n}\r\n", ""]);
 // Exports
 /* harmony default export */ __webpack_exports__.Z = (___CSS_LOADER_EXPORT___);
 
@@ -113703,37 +113828,8 @@ var CustomCard = function CustomCard(_ref) {
   }));
 };
 /* harmony default export */ var src_components_card = (CustomCard);
-// EXTERNAL MODULE: ./node_modules/css-loader/dist/cjs.js!./src/App.css
-var App = __webpack_require__(9087);
-;// CONCATENATED MODULE: ./src/App.css
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
-var App_options = {};
-
-App_options.styleTagTransform = (styleTagTransform_default());
-App_options.setAttributes = (setAttributesWithoutAttributes_default());
-
-      App_options.insert = insertBySelector_default().bind(null, "head");
-    
-App_options.domAPI = (styleDomAPI_default());
-App_options.insertStyleElement = (insertStyleElement_default());
-
-var App_update = injectStylesIntoStyleTag_default()(App/* default */.Z, App_options);
-
-
-
-
-       /* harmony default export */ var src_App = (App/* default */.Z && App/* default */.Z.locals ? App/* default */.Z.locals : undefined);
-
+// EXTERNAL MODULE: ./node_modules/coi-serviceworker/coi-serviceworker.js
+var coi_serviceworker = __webpack_require__(1130);
 ;// CONCATENATED MODULE: ./src/plugin/USDZ/ThreeJsRenderDelegate.js
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = ThreeJsRenderDelegate_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -114414,7 +114510,7 @@ var USDZLoader_USDZLoader = /*#__PURE__*/function () {
                   }
                 }, _callee, null, [[3, 13, 16, 19]]);
               }));
-              urlPath = "https://saadhoctesting.blob.core.windows.net/test-container/content-package-file-uploads/123456/emHdBindings.js?sp=r&st=2023-11-21T12:00:40Z&se=2023-12-08T20:00:40Z&sv=2022-11-02&sr=b&sig=ofE%2BB3gb%2BbjeqhWBPp9KZulzJc5R93C8HuiGwqNOt%2F0%3D"; // let urlPath = ;
+              urlPath = "https://saadhoctesting.blob.core.windows.net/test-container/content-package-file-uploads/123456/emHdBindings.js?sp=r&st=2023-11-21T12:00:40Z&se=2023-12-08T20:00:40Z&sv=2022-11-02&sr=b&sig=ofE%2BB3gb%2BbjeqhWBPp9KZulzJc5R93C8HuiGwqNOt%2F0%3D"; //  urlPath = ;
               _context2.next = 5;
               return fetch(urlPath);
             case 5:
@@ -114563,6 +114659,37 @@ var USDZLoader_USDZLoader = /*#__PURE__*/function () {
   }]);
   return USDZLoader;
 }();
+// EXTERNAL MODULE: ./node_modules/css-loader/dist/cjs.js!./src/App.css
+var App = __webpack_require__(9087);
+;// CONCATENATED MODULE: ./src/App.css
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var App_options = {};
+
+App_options.styleTagTransform = (styleTagTransform_default());
+App_options.setAttributes = (setAttributesWithoutAttributes_default());
+
+      App_options.insert = insertBySelector_default().bind(null, "head");
+    
+App_options.domAPI = (styleDomAPI_default());
+App_options.insertStyleElement = (insertStyleElement_default());
+
+var App_update = injectStylesIntoStyleTag_default()(App/* default */.Z, App_options);
+
+
+
+
+       /* harmony default export */ var src_App = (App/* default */.Z && App/* default */.Z.locals ? App/* default */.Z.locals : undefined);
+
 ;// CONCATENATED MODULE: ./src/App.js
 function App_slicedToArray(arr, i) { return App_arrayWithHoles(arr) || App_iterableToArrayLimit(arr, i) || App_unsupportedIterableToArray(arr, i) || App_nonIterableRest(); }
 function App_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -114573,6 +114700,9 @@ function App_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+
+// import USDZLoader from "./test";
 
 
 
@@ -114612,8 +114742,6 @@ var App_App = function App() {
     format: "GLTF",
     path: "https://saadhoctesting.blob.core.windows.net/test-container/content-package-file-uploads/26371736/16374_PS01_S01_NV01_RQP2_3.0.gltf?sp=r&st=2023-11-16T06:32:53Z&se=2023-11-25T14:32:53Z&sv=2022-11-02&sr=b&sig=UsAE2AkldEhkcaVHwpI3WgQ4a1pxXKlTE6WGLrMZx74%3D",
     modalTitle: "GLTF Viewer",
-    // https://saadhoctesting.blob.core.windows.net/test-container/content-package-file-uploads/26371736/16374_PS01_S01_NV01_RQP2_3.0_0.bin?sp=r&st=2023-11-16T06:33:16Z&se=2023-11-25T14:33:16Z&sv=2022-11-02&sr=b&sig=eTV3zw6NtTJgyMUye2W0sj%2FdehppTEYJptmRxD2%2BsRQ%3D
-    // binPath : "https://saadhoctesting.blob.core.windows.net/test-container/content-package-file-uploads/26371736/16374_PS01_S01_NV01_RQP2_3.0_0.bin?sp=r&st=2023-11-16T06:33:16Z&se=2023-11-25T14:33:16Z&sv=2022-11-02&sr=b&sig=eTV3zw6NtTJgyMUye2W0sj%2FdehppTEYJptmRxD2%2BsRQ%3D"
     binPath: "https://saadhoctesting.blob.core.windows.net/test-container/content-package-file-uploads/26371736/16374_PS01_S01_NV01_RQP2_3.0_0.bin?sp=r&st=2023-11-16T06:33:16Z&se=2023-11-25T14:33:16Z&sv=2022-11-02&sr=b&sig=eTV3zw6NtTJgyMUye2W0sj%2FdehppTEYJptmRxD2%2BsRQ%3D"
   }, {
     key: "renderUSDZ",
