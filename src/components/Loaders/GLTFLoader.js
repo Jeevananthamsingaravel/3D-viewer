@@ -19,7 +19,7 @@ const ModelViewer = ({ modelPath ,modelData, forPreview}) => {
   );
 };
 
-const Model = ({ modelPath }) => {
+const Model = ({ modelPath,modelData }) => {
   
   const dracoLoader = new DRACOLoader();
   dracoLoader.setDecoderPath("https://www.gstatic.com/draco/versioned/decoders/1.5.6/");
