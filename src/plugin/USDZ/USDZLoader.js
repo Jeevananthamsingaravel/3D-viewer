@@ -45,11 +45,6 @@ export class USDZLoader {
     const response = await fetch(urlPath);
     const arrayBuffer = await response.arrayBuffer();
     const blob = new Blob([arrayBuffer]);
-    const file = new File([blob], "emHdBindings.js", {
-      // type: "model/vnd.usdz+zip",
-    });
-
-    // console.log(file,"worker_url");
     usdBindingsTag.setAttribute("src",URL.createObjectURL(blob));
     document.head.appendChild(usdBindingsTag);
   }
