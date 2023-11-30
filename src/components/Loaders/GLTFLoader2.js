@@ -4,7 +4,7 @@ import {OrbitControls} from "@react-three/drei";
 import * as THREE from "three";
 import {GLTFLoader} from "three/addons/loaders/GLTFLoader";
 import {DRACOLoader} from "three/addons/loaders/DRACOLoader";
-import JSZip from "jszip";
+import JSZip, {file} from "jszip";
 const ModelViewer = ({modelPath, modelData, forPreview}) => {
     return (
         // <Canvas camera={{position: [0, 0, 0.5]}}>
@@ -48,50 +48,42 @@ const Model = ({modelPath, modelData}) => {
                 });
                 return Promise.all(promises);
             })
-            .then(async(files) => {
+            .then(async (files) => {
                 // Step 3: Load the GLTF JSON file
                 const gltfFile = files.find((file) => file.relativePath.endsWith(".gltf"));
                 if (!gltfFile) {
                     throw new Error("GLTF file not found in the zip archive.");
                 }
                 return [await gltfFile.blob.text(), files];
-              })
-              .then(async([gltfContent, files]) => {
+            })
+            .then(async ([gltfContent, files]) => {
                 // Step 4: Load the binary (.bin) file
                 const binFile = files.find((file) => file.relativePath.endsWith(".bin"));
                 if (!binFile) {
                     throw new Error("Binary file not found in the zip archive.");
                 }
                 return [await binFile.blob.arrayBuffer(), files, gltfContent];
-              })
-              .then(async ([binArrayBuffer, files, gltfContent]) => {
+            })
+            .then(async ([binArrayBuffer, files, gltfContent]) => {
                 // Step 5: Load textures
                 // const loader = new GLTFLoader();
                 // loader.setDRACOLoader(new THREE.DRACOLoader()); // If DRACO compression is used in the GLTF file
-                
-                let texturePromises = files.filter((file) => file.relativePath.endsWith(".png") || file.relativePath.endsWith(".jpg"))
-                texturePromises= await texturePromises.map(async(textureFile) =>await textureFile.blob.arrayBuffer().then((buffer) => new Uint8Array(buffer)));
-                return await Promise.all(texturePromises).then((textures) => ({binArrayBuffer, textures,gltfContent}));
+
+                let texturePromises = files.filter(
+                    (file) => file.relativePath.endsWith(".png") || file.relativePath.endsWith(".jpg")
+                );
+                texturePromises = await texturePromises.map(
+                    async (textureFile) => await textureFile.blob.arrayBuffer().then((buffer) => new Uint8Array(buffer))
+                );
+                return await Promise.all(texturePromises).then((textures) => ({files, textures, gltfContent}));
             })
-            .then(({binArrayBuffer, textures, gltfContent}) => {
+            .then(({files, textures, gltfContent}) => {
                 // Load the GLTF model with the binary data and textures
                 const loader = new GLTFLoader();
-                // const dracoLoader = new THREE.DRACOLoader(); // If DRACO compression is used in the GLTF file
-                // loader.setDRACOLoader();
-                
-
-                loader.parse(
-                    gltfContent,
-                    new Uint8Array(binArrayBuffer),
-                    (gltfModel) => {
-                        // Handle the loaded GLTF model
-                        scene.add(gltfModel.scene);
-                    },
-                    undefined,
-                    (error) => {
-                        console.error("Error parsing GLTF model:", error);
-                    }
-                );
+                const geometry = new THREE.BoxGeometry();
+                const material = new THREE.MeshBasicMaterial({color: 0x00ff00}); // You can replace this with your desired material
+                const cube = new THREE.Mesh(geometry, material);
+                scene.add(cube);
 
                 // Assuming you want to use the textures in your model
                 textures.forEach((texture, index) => {
@@ -99,8 +91,31 @@ const Model = ({modelPath, modelData}) => {
                     // For example, you can create a texture object and apply it to a material
                     const textureLoader = new THREE.TextureLoader();
                     const textureObject = textureLoader.load(URL.createObjectURL(new Blob([texture])));
+                    material.map=textureObject;
                     // Use textureObject in your scene as needed
                 });
+                // new THREE.DefaultLoadingManager.setURLModifier(async (url) => {
+                //     console.log(url);
+                //     if (url.endsWith(".bin")) {
+                //         let binFile = files.find(
+                //             (file) => file.relativePath.startsWith("gltf") && file.relativePath.endsWith(".bin")
+                //         );
+                //         return await binFile.blob.arrayBuffer();
+                //     }
+                // });
+
+                loader.parse(
+                    gltfContent,
+                    // new Uint8Array(binArrayBuffer),
+                    (gltfModel) => {
+                        // Handle the loaded GLTF model
+                        scene.add(gltfModel.scene);
+                    },
+                    undefined,
+                    (error) => {
+                        // console.error("Error parsing GLTF model:", error);
+                    }
+                );
             })
             .catch((error) => {
                 console.error("Error loading or processing GLTF model:", error);
