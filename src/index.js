@@ -7,6 +7,9 @@
 // import App from './App';
 // export default function createExternalRoot(container) {
 
+  // const serWorker = document.createElement("script");
+  // serWorker.setAttribute("src", "https://ikea-q-001-delivery.sitecorecontenthub.cloud/api/public/content/DxNPgxz9aUqJbwosSzZX8g_original?v=9736f186")
+  // document.head.appendChild(serWorker);
 //   const usdBindingsTag = document.createElement("script");
 //   usdBindingsTag.innerHTML = `if (!crossOriginIsolated) SharedArrayBuffer = ArrayBuffer;`
 //   document.body.appendChild(usdBindingsTag);
@@ -60,8 +63,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
-
+import reportWebVitals from './reportWebVitals'; 
+const serWorker = document.createElement("script");
+serWorker.setAttribute("src", "https://ikea-q-001-delivery.sitecorecontenthub.cloud/api/public/content/DxNPgxz9aUqJbwosSzZX8g_original?v=9736f186")
+document.head.appendChild(serWorker);
 const usdBindingsTag = document.createElement("script");
 usdBindingsTag.innerHTML = `if (!crossOriginIsolated) SharedArrayBuffer = ArrayBuffer;`
 document.body.appendChild(usdBindingsTag);
