@@ -69,36 +69,6 @@ export default function createExternalRoot(container) {
 // import App from './App';
 // import reportWebVitals from './reportWebVitals';
 
-// const serWorker = document.createElement("script");
-// // serWorker.setAttribute(
-// //     "src",
-// //     URL.createObjectURL(blob)
-// // );
-// serWorker.innerHTML = await
-//  fetch('https://ikea-q-001-delivery.sitecorecontenthub.cloud/api/public/content/EJDi2O7NTEiV_ewOICkhJg_original?v=9a1c625b')
-// .then(async response => await response.text())
-// .then(workerCode => {
-//   console.log(workerCode,"workerCode")
-//   return workerCode;
-//     // const blob = new Blob([workerCode], { type: 'application/javascript' });
-
-//     // const blobUrl = URL.createObjectURL(blob);
-
-//     // if ('serviceWorker' in navigator) {
-//     //     navigator.serviceWorker.register(blobUrl)
-//     //         .then(registration => {
-//     //             console.log('Service Worker registered with scope:', registration.scope);
-//     //         })
-//     //         .catch(error => {
-//     //             console.error('Service Worker registration failed:', error);
-//     //         });
-//     // }
-// })
-// .catch(error => {
-//     console.error('Error fetching service worker script:', error);
-// });
-
-// document.head.appendChild(serWorker);
 
 // const usdBindingsTag = document.createElement("script");
 // usdBindingsTag.innerHTML = `if (!crossOriginIsolated) SharedArrayBuffer = ArrayBuffer;`

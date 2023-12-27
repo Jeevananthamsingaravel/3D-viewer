@@ -40,8 +40,7 @@ export class USDZLoader {
         this.moduleLoadingCompleted = true;
       }
     };
-    let urlPath = "https://saadhoctesting.blob.core.windows.net/test-container/content-package-file-uploads/123456/emHdBindings.js?sp=r&st=2023-11-21T12:00:40Z&se=2023-12-08T20:00:40Z&sv=2022-11-02&sr=b&sig=ofE%2BB3gb%2BbjeqhWBPp9KZulzJc5R93C8HuiGwqNOt%2F0%3D";
-    // let urlPath = ;
+    let urlPath ="https://ikea-q-001-delivery.sitecorecontenthub.cloud/api/public/content/nAYzVDWNa0yVMsZLjruspA_original?v=d1c7587a" ;
     const response = await fetch(urlPath);
     const arrayBuffer = await response.arrayBuffer();
     const blob = new Blob([arrayBuffer]);

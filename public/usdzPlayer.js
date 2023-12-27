@@ -89006,7 +89006,7 @@ var USDZLoader = /*#__PURE__*/function () {
                   }
                 }, _callee, null, [[3, 13, 16, 19]]);
               }));
-              urlPath = "https://saadhoctesting.blob.core.windows.net/test-container/content-package-file-uploads/123456/emHdBindings.js?sp=r&st=2023-11-21T12:00:40Z&se=2023-12-08T20:00:40Z&sv=2022-11-02&sr=b&sig=ofE%2BB3gb%2BbjeqhWBPp9KZulzJc5R93C8HuiGwqNOt%2F0%3D"; // let urlPath = ;
+              urlPath = "https://ikea-q-001-delivery.sitecorecontenthub.cloud/api/public/content/nAYzVDWNa0yVMsZLjruspA_original?v=d1c7587a";
               _context2.next = 5;
               return fetch(urlPath);
             case 5:
@@ -89246,7 +89246,6 @@ function createExternalRoot(container) {
   //     "crossorigin",
   //     "anonymous"
   // );
-
   //   document.head.appendChild(serWorker);
   var usdBindingsTag = document.createElement("script");
   usdBindingsTag.innerHTML = "if (!crossOriginIsolated) SharedArrayBuffer = ArrayBuffer;";
@@ -89316,37 +89315,6 @@ function createExternalRoot(container) {
 // import './index.css';
 // import App from './App';
 // import reportWebVitals from './reportWebVitals';
-
-// const serWorker = document.createElement("script");
-// // serWorker.setAttribute(
-// //     "src",
-// //     URL.createObjectURL(blob)
-// // );
-// serWorker.innerHTML = await
-//  fetch('https://ikea-q-001-delivery.sitecorecontenthub.cloud/api/public/content/EJDi2O7NTEiV_ewOICkhJg_original?v=9a1c625b')
-// .then(async response => await response.text())
-// .then(workerCode => {
-//   console.log(workerCode,"workerCode")
-//   return workerCode;
-//     // const blob = new Blob([workerCode], { type: 'application/javascript' });
-
-//     // const blobUrl = URL.createObjectURL(blob);
-
-//     // if ('serviceWorker' in navigator) {
-//     //     navigator.serviceWorker.register(blobUrl)
-//     //         .then(registration => {
-//     //             console.log('Service Worker registered with scope:', registration.scope);
-//     //         })
-//     //         .catch(error => {
-//     //             console.error('Service Worker registration failed:', error);
-//     //         });
-//     // }
-// })
-// .catch(error => {
-//     console.error('Error fetching service worker script:', error);
-// });
-
-// document.head.appendChild(serWorker);
 
 // const usdBindingsTag = document.createElement("script");
 // usdBindingsTag.innerHTML = `if (!crossOriginIsolated) SharedArrayBuffer = ArrayBuffer;`
